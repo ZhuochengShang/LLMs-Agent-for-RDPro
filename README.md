@@ -146,7 +146,7 @@ to Fahrenheit.
 @tparam U the type of pixels in the output
 @return the resulting RDD
 def mapPixels[T: ClassTag, U: ClassTag](inputRaster: RasterRDD[T], f: T => U): RasterRDD[U]
-```scala
+```
 
 ```scala
 val temperatureK: RasterRDD[Float] =
@@ -180,6 +180,13 @@ The flatten method extracts all non-empty pixels from the raster into a non-rast
 This can help with computing global statistics for the entire dataset, e.g., minimum, maximum, average, or histogram.
 The following example computes the histogram of the global land cover.
 ```scala
+@param raster the raster to extract its pixels
+@tparam T the type of pixel values
+@return an RDD that contains all pixel locations and values
+def flatten[T](raster: RasterRDD[T]): RDD[(Int, Int, RasterMetadata, T)]
+```
+
+```scala
 val raster: RasterRDD[Int] = sc.geoTiff[Int]("glc2000_v1_1.tif")
 val histogram: Map[Int, Long] = raster.flatten.map(_._4).countByValue().toMap
 println(histogram)
@@ -194,6 +201,11 @@ The flatten method returns an RDD of tuples where each tuple contains the follow
 THe overlay operation stacks multiple rasters on top of each other. This function only works if all the input
 rasters have the same metadata, i.e., same resolution, CRS, and tile size. If the two inputs have mixed
 metadata, they should be first converted using the reshape operation (see below) to make them compatible.
+```scala
+@param inputs the RDDs to overlay
+@return a raster with the same metadata of the inputs where output pixels are the concatenation of input pixels.
+def overlay[T: ClassTag, V](@varargs inputs: RDD[ITile[T]]*): RasterRDD[Array[V]]
+```
 
 ```scala
 val raster1: RasterRDD[Int] = sc.geoTiff[Int]("glc2000_v1_1.tif")
