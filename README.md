@@ -40,7 +40,7 @@ ITile[T]: The atomic unit of processing in RDPro
 @param tileID the ID of this tile in the raster metadata
 @param rasterMetadata the metadata of the underlying raster
 @param rasterFeature (optional) any additional features that are associated with the raster layer, e.g., file name and time
-```scala
+```
 
 RasterMetadata: A class that holds metadata of a raster layer
 ```scala
@@ -52,7 +52,7 @@ RasterMetadata: A class that holds metadata of a raster layer
  @param tileHeight he height of each tile in pixels
  @param srid The spatial reference identifier of the coordinate reference system of this raster layer
  @param g2m the grid to model affine transformation
-```scala
+```
 
 RasterRDD[T]: An alias for RDD[ITile[T]]. It represents a distributed collection of raster tiles.
 
